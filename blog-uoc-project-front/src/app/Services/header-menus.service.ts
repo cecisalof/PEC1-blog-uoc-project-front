@@ -6,6 +6,7 @@ import { HeaderMenus } from '../Models/header-menus.dto';
   providedIn: 'root',
 })
 export class HeaderMenusService {
+  // headerManagement: Observable que emite el estado del header
   headerManagement: BehaviorSubject<HeaderMenus> =
     new BehaviorSubject<HeaderMenus>({
       showAuthSection: false,

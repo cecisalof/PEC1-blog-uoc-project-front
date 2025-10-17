@@ -9,6 +9,9 @@ import { LocalStorageService } from 'src/app/Services/local-storage.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
+// OnInit: sirve para inicializar el componente una vez se ha cargado. El componente está listo para usarse, pero aún no se ha renderizado en la vista.
+
+
 export class HeaderComponent implements OnInit {
   showAuthSection: boolean;
   showNoAuthSection: boolean;
@@ -23,6 +26,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  // Aquí va el código que se ejecuta al iniciar el componente antes de que se renderice en la vista.
+  // En este caso el código se suscribe a los cambios en el servicio HeaderMenusService para actualizar las variables showAuthSection y showNoAuthSection según la información recibida.
     this.headerMenusService.headerManagement.subscribe(
       (headerInfo: HeaderMenus) => {
         if (headerInfo) {

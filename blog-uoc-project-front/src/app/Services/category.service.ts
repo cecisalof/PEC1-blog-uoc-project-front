@@ -6,10 +6,17 @@ interface deleteResponse {
   affected: number;
 }
 
+/*
+*** Injectable: Decorator that marks a class as available to be provided and injected as a dependency.
+*** providedIn: 'root': This means that the service is available application-wide as a singleton.
+*** Singleton: Instance of a class that is shared across the entire application.
+*/
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
+  // En Angular, solo las propiedades públicas se pueden acceder desde el HTML (template).
+  //Las privadas son internas al componente o servicio. Se usa private para proteger datos internos, como URLs, contadores, estados internos, o servicios inyectados que no deben manipularse directamente desde el HTML.
   private urlBlogUocApi: string;
   private controller: string;
 
