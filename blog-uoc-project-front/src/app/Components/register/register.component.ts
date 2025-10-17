@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeaderMenusService } from 'src/app/Services/header-menus.service';
 import { SharedService } from 'src/app/Services/shared.service';
 import { UserService } from 'src/app/Services/user.service';
+import { UserDTO } from 'src/app/Models/user.dto';
+import { HeaderMenus } from 'src/app/Models/header-menus.dto';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -11,10 +14,7 @@ import { UserService } from 'src/app/Services/user.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  /*
-  // TODO 16
   registerUser: UserDTO;
-
   name: FormControl;
   surname_1: FormControl;
   surname_2: FormControl;
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   isValidForm: boolean | null;
-*/
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private userService: UserService,
@@ -33,18 +33,46 @@ export class RegisterComponent implements OnInit {
     private headerMenusService: HeaderMenusService,
     private router: Router
   ) {
-    // TODO 17
+
+    //Crea un objeto vacío de tipo UserDTO.
+    this.registerUser = {} as UserDTO;
+    this.isValidForm = null;
+
+    // Inicializar campos del formulario
+    this.name = new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]);
+    this.surname_1 = new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]);
+    this.surname_2 = new FormControl("", [Validators.minLength(5), Validators.maxLength(25)]);
+    this.alias = new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(15)]);
+    this.birth_date = new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), [Validators.required]);
+    this.email = new FormControl("", [Validators.required, Validators.email]);
+    this.password = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
+
+    // formBuilder para agrupar los campos del formulario
+    this.registerForm = this.formBuilder.group({
+      name: this.name,
+      surname_1: this.surname_1,
+      surname_2: this.surname_2,
+      alias: this.alias,
+      birth_date: this.birth_date,
+      email: this.email,
+      password: this.password,
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   async register(): Promise<void> {
-    /*
+
     let responseOK: boolean = false;
     this.isValidForm = false;
     let errorResponse: any;
+    // console.log(this.registerForm.value);
+    // console.log(this.registerForm.errors);
+    // console.log(this.registerForm.controls);
 
     if (this.registerForm.invalid) {
+      console.log("Form is invalid");
+
       return;
     }
 
@@ -81,6 +109,5 @@ export class RegisterComponent implements OnInit {
       this.router.navigateByUrl('home');
     }
   }
-  */
-  }
 }
+
