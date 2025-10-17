@@ -3,6 +3,35 @@
 </div>
 <div>
   <h1>Register</h1>
-
-  <!-- TODO 18 -->
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" type="text" placeholder="Enter your name" />
+    </div>
+    <div>
+      <label for="surname_1">First Surname:</label>
+      <input id="surname_1" formControlName="surname_1" type="text" placeholder="Enter your first surname" />
+    </div>
+    <div>
+      <label for="surname_2">Second Surname:</label>
+      <input id="surname_2" formControlName="surname_2" type="text" placeholder="Enter your second surname" />
+    </div>
+    <div>
+      <label for="alias">Alias:</label>
+      <input id="alias" formControlName="alias" type="text" placeholder="Enter your alias" />
+    </div>
+    <div>
+      <label for="birth_date">Birth Date:</label>
+      <input id="birth_date" formControlName="birth_date" type="date" placeholder="Select your birth date" />
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" placeholder="Enter your email" />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" formControlName="password" type="password" placeholder="Enter your password" />
+    </div>
+    <button type="submit">Register</button>
+  </form>
 </div>
