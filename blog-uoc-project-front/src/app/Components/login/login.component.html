@@ -3,6 +3,15 @@
 </div>
 <div>
   <h1>Login</h1>
-
-  <!-- TODO 21 -->
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" placeholder="Enter your email" />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" formControlName="password" type="password" placeholder="Enter your password" />
+    </div>
+    <button type="submit">Login</button>
+  </form>
 </div>
