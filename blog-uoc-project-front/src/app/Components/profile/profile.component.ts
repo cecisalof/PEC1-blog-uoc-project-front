@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   isValidForm: boolean | null;
 
-
   constructor(
     private formBuilder: UntypedFormBuilder,
     private userService: UserService,
@@ -42,9 +41,7 @@ export class ProfileComponent implements OnInit {
     this.alias = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]);
     this.birth_date = new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), [Validators.required]);
     this.email = new FormControl("", [Validators.required, Validators.email]);
-    // explicar por qué no es required
-    this.password = new FormControl("", [Validators.minLength(8), Validators.maxLength(16)]);
-
+    this.password = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
 
     this.profileForm = this.formBuilder.group({
       name: this.name,
@@ -58,64 +55,57 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-
     let errorResponse: any;
 
     // load user data
     const userId = this.localStorageService.get('user_id');
-
     if (userId) {
       try {
         const userData = await this.userService.getUSerById(userId);
 
-        this.profileForm.patchValue({
-          name: userData.name,
-          surname_1: userData.surname_1,
-          surname_2: userData.surname_2,
-          alias: userData.alias,
-          birth_date: formatDate(userData.birth_date, 'yyyy-MM-dd', 'en'),
-          email: userData.email
-          // password: lo dejamos vacío
+        this.name.setValue(userData.name);
+        this.surname_1.setValue(userData.surname_1);
+        this.surname_2.setValue(userData.surname_2);
+        this.alias.setValue(userData.alias);
+        this.birth_date.setValue(
+          formatDate(userData.birth_date, 'yyyy-MM-dd', 'en')
+        );
+        this.email.setValue(userData.email);
+
+        this.profileForm = this.formBuilder.group({
+          name: this.name,
+          surname_1: this.surname_1,
+          surname_2: this.surname_2,
+          alias: this.alias,
+          birth_date: this.birth_date,
+          email: this.email,
+          password: this.password,
         });
       } catch (error: any) {
         errorResponse = error.error;
         this.sharedService.errorLog(errorResponse);
       }
     }
-
   }
 
   async updateUser(): Promise<void> {
 
     let responseOK: boolean = false;
-    let errorResponse: any;
     this.isValidForm = false;
-   
+    let errorResponse: any;
 
     if (this.profileForm.invalid) {
-      console.log('Invalid form');
       return;
     }
 
     this.isValidForm = true;
+    this.profileUser = this.profileForm.value;
 
-    // Construimos el payload
-    const payload: any = { // MAKE ANY A USERdTO TYPE
-      ...this.profileForm.value
-    };
-
-    // Eliminamos password si está vacío (usuario no quiere cambiarla)
-    if (!payload.password) {
-      delete payload.password;
-    }
-
-    console.log("payload", payload);
-    
     const userId = this.localStorageService.get('user_id');
 
     if (userId) {
       try {
-        await this.userService.updateUser(userId, payload);
+        await this.userService.updateUser(userId, this.profileUser);
         responseOK = true;
       } catch (error: any) {
         responseOK = false;
@@ -130,6 +120,5 @@ export class ProfileComponent implements OnInit {
       responseOK,
       errorResponse
     );
-
   }
 }
