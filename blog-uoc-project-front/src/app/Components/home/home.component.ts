@@ -41,13 +41,13 @@ export class HomeComponent {
     const userId = this.localStorageService.get('user_id');
     if (userId) {
       this.showButtons = true;
-      try {
+    }
+    try {
         this.posts = await this.postService.getPosts();
       } catch (error: any) {
         errorResponse = error.error;
         this.sharedService.errorLog(errorResponse);
       }
-    }
   }
 
   async like(postId: string): Promise<void> {
