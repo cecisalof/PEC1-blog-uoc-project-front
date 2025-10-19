@@ -9,6 +9,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { PostDTO } from 'src/app/Models/post.dto';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { CategoryDTO } from 'src/app/Models/category.dto';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-post-form',
@@ -31,6 +32,7 @@ export class PostFormComponent implements OnInit {
   private postId: string | null;
 
   constructor(
+    private datePipe: DatePipe,
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private formBuilder: UntypedFormBuilder,
@@ -83,7 +85,11 @@ export class PostFormComponent implements OnInit {
 
         this.title.setValue(this.post.title);
         this.description.setValue(this.post.description);
-        this.publication_date.setValue(this.post.publication_date);
+
+        // 🔹 Aquí formateamos la fecha correctamente
+        const formattedDate = this.datePipe.transform(this.post.publication_date, 'yyyy-MM-dd');
+        this.publication_date.setValue(formattedDate);
+
         this.categoryControl.setValue(this.post.categories.map(c => c.categoryId));
 
         this.postForm = this.formBuilder.group({

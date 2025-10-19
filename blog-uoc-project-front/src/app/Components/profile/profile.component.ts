@@ -6,6 +6,7 @@ import { UserService } from 'src/app/Services/user.service';
 import { UserDTO } from 'src/app/Models/user.dto';
 import { FormControl, FormGroup } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -27,6 +28,7 @@ export class ProfileComponent implements OnInit {
   isValidForm: boolean | null;
 
   constructor(
+    private datePipe: DatePipe,
     private formBuilder: UntypedFormBuilder,
     private userService: UserService,
     private sharedService: SharedService,
@@ -67,9 +69,11 @@ export class ProfileComponent implements OnInit {
         this.surname_1.setValue(userData.surname_1);
         this.surname_2.setValue(userData.surname_2);
         this.alias.setValue(userData.alias);
-        this.birth_date.setValue(
-          formatDate(userData.birth_date, 'yyyy-MM-dd', 'en')
-        );
+        
+        // 🔹 Aquí formateamos la fecha correctamente
+        const formattedDate = this.datePipe.transform(this.profileUser.birth_date, 'yyyy-MM-dd');
+        this.birth_date.setValue(formattedDate);
+    
         this.email.setValue(userData.email);
 
         this.profileForm = this.formBuilder.group({

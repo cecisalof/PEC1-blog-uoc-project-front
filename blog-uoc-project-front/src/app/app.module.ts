@@ -16,6 +16,7 @@ import { ProfileComponent } from './Components/profile/profile.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { AuthInterceptorService } from './Services/auth-interceptor.service';
 import { FormatDatePipe } from './Pipes/format-date.pipe';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { FormatDatePipe } from './Pipes/format-date.pipe';
       useClass: AuthInterceptorService,
       multi: true,
     },
+    DatePipe
   ],
   bootstrap: [AppComponent],
 })
