@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
         this.alias.setValue(userData.alias);
         
         // 🔹 Aquí formateamos la fecha correctamente
-        const formattedDate = this.datePipe.transform(this.profileUser.birth_date, 'yyyy-MM-dd');
+        const formattedDate = this.datePipe.transform(userData.birth_date, 'yyyy-MM-dd');
         this.birth_date.setValue(formattedDate);
     
         this.email.setValue(userData.email);
@@ -93,7 +93,6 @@ export class ProfileComponent implements OnInit {
   }
 
   async updateUser(): Promise<void> {
-
     let responseOK: boolean = false;
     this.isValidForm = false;
     let errorResponse: any;
