@@ -66,25 +66,13 @@ export class PostFormComponent implements OnInit {
       categoryControl: this.categoryControl, // with custom validator applied
     });
   }
-  
+
   async ngOnInit(): Promise<void> {
     let errorResponse: any;
-    
+
     // load categories for the select input
-    const userId = this.localStorageService.get('user_id');
-    if (userId) {
-      try {
-        this.categories = await this.categoryService.getCategoriesByUserId(
-          userId
-        );
-        console.log('this.categories', this.categories);
-        
-      } catch (error: any) {
-        errorResponse = error.error;
-        this.sharedService.errorLog(errorResponse);
-      }
-    }
-    
+    await this.loadCategories();
+
     // update
     if (this.postId) {
       this.isUpdateMode = true;
@@ -108,6 +96,19 @@ export class PostFormComponent implements OnInit {
         errorResponse = error.error;
         this.sharedService.errorLog(errorResponse);
       }
+    }
+  }
+
+  async loadCategories(): Promise<void> {
+    const userId = this.localStorageService.get('user_id');
+    if (!userId) return;
+
+    try {
+      this.categories = await this.categoryService.getCategoriesByUserId(userId);
+      console.log('this.categories', this.categories);
+    } catch (error: any) {
+      const errorResponse = error.error;
+      this.sharedService.errorLog(errorResponse);
     }
   }
 
