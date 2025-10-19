@@ -31,6 +31,11 @@
     <div>
       <label for="password">Password:</label>
       <input id="password" formControlName="password" type="password" placeholder="Enter your password" />
+      <!-- Mensaje de error -->
+      <p *ngIf="profileForm.get('password')?.touched && profileForm.get('password')?.hasError('required')"
+        style="color: red;">
+        ⚠️ Please enter your password.
+      </p>
     </div>
     <button type="submit">Update user</button>
   </form>
