@@ -111,7 +111,6 @@ export class PostFormComponent implements OnInit {
 
     try {
       this.categories = await this.categoryService.getCategoriesByUserId(userId);
-      console.log('this.categories', this.categories);
     } catch (error: any) {
       const errorResponse = error.error;
       this.sharedService.errorLog(errorResponse);
@@ -124,7 +123,6 @@ export class PostFormComponent implements OnInit {
       return Array.isArray(value) && value.length >= min ? null : { required: true };
     };
   }
-
 
   private async editPost(): Promise<boolean> {
     let errorResponse: any;
@@ -194,7 +192,20 @@ export class PostFormComponent implements OnInit {
     }
 
     this.isValidForm = true;
-    this.post = this.postForm.value;
+    const postValues = this.postForm.value;
+
+    // Mapear category IDs a objetos CategoryDTO
+    const selectedCategories = this.categories.filter(c =>
+      postValues.categoryControl.includes(c.categoryId)
+    );
+
+    this.post = {
+    ...this.post,
+    title: postValues.title,
+    description: postValues.description,
+    publication_date: postValues.publication_date,
+    categories: selectedCategories, // <-- aquí están los objetos completos
+  };
 
     if (this.isUpdateMode) {
       this.validRequest = await this.editPost();
