@@ -96,7 +96,7 @@ export class PostFormComponent implements OnInit {
           title: this.title,
           description: this.description,
           publication_date: this.publication_date,
-          categories: this.categories,
+          categoryControl: this.categoryControl,
         });
       } catch (error: any) {
         errorResponse = error.error;
