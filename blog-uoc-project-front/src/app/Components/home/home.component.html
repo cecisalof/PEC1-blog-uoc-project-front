@@ -2,9 +2,9 @@
     <div class="column">
         <div class="card">
             <div class="categories">
-                <span *ngFor="let cat of post.categories; let isLast = last"
+                <span *ngFor="let cat of post.categories;"
                     [ngStyle]="{ 'backgroundColor': cat.css_color}">
-                    {{ cat.title }}{{ isLast ? '' : ', ' }}
+                    {{ cat.title }}
                 </span>
             </div>
             <h3>Title: {{post.title}}</h3>
