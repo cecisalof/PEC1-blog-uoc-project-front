@@ -70,7 +70,6 @@ export class ProfileComponent implements OnInit {
         this.surname_2.setValue(userData.surname_2);
         this.alias.setValue(userData.alias);
         
-        // 🔹 Aquí formateamos la fecha correctamente
         const formattedDate = this.datePipe.transform(userData.birth_date, 'yyyy-MM-dd');
         this.birth_date.setValue(formattedDate);
     

@@ -22,7 +22,7 @@ export class PostFormComponent implements OnInit {
   description: FormControl;
   publication_date: FormControl;
   categories: CategoryDTO[] = [];
-  // FormControl for categories with custom validator. Tracks the value and validation status of an individual form control.
+  // FormControl for categories with custom validator.
   categoryControl: FormControl;
   postForm: UntypedFormGroup;
   isValidForm: boolean | null;
@@ -86,7 +86,6 @@ export class PostFormComponent implements OnInit {
         this.title.setValue(this.post.title);
         this.description.setValue(this.post.description);
 
-        // 🔹 Aquí formateamos la fecha correctamente
         const formattedDate = this.datePipe.transform(this.post.publication_date, 'yyyy-MM-dd');
         this.publication_date.setValue(formattedDate);
 
@@ -194,7 +193,7 @@ export class PostFormComponent implements OnInit {
     this.isValidForm = true;
     const postValues = this.postForm.value;
 
-    // Mapear category IDs a objetos CategoryDTO
+    // Map categoryId
     const selectedCategories = this.categories.filter(c =>
       postValues.categoryControl.includes(c.categoryId)
     );
@@ -204,7 +203,7 @@ export class PostFormComponent implements OnInit {
     title: postValues.title,
     description: postValues.description,
     publication_date: postValues.publication_date,
-    categories: selectedCategories, // <-- aquí están los objetos completos
+    categories: selectedCategories,
   };
 
     if (this.isUpdateMode) {
