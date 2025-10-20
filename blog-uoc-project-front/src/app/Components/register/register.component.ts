@@ -66,13 +66,8 @@ export class RegisterComponent implements OnInit {
     let responseOK: boolean = false;
     this.isValidForm = false;
     let errorResponse: any;
-    // console.log(this.registerForm.value);
-    // console.log(this.registerForm.errors);
-    // console.log(this.registerForm.controls);
 
     if (this.registerForm.invalid) {
-      console.log("Form is invalid");
-
       return;
     }
 
@@ -104,7 +99,7 @@ export class RegisterComponent implements OnInit {
     if (responseOK) {
       // Reset the form
       this.registerForm.reset();
-      // After reset form we set birthDate to today again (is an example)
+      // After reset form we set birthDate to today again
       this.birth_date.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
       this.router.navigateByUrl('home');
     }
