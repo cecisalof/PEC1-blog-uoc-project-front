@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { NONE_TYPE } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { PostDTO } from '../Models/post.dto';
+import { Observable } from 'rxjs';
 
 interface updateResponse {
   affected: number;
@@ -23,8 +24,8 @@ export class PostService {
     this.urlBlogUocApi = 'http://localhost:3000/' + this.controller;
   }
 
-  getPosts(): Promise<PostDTO[]> {
-    return this.http.get<PostDTO[]>(this.urlBlogUocApi).toPromise();
+  getPosts(): Observable<PostDTO[]> {
+    return this.http.get<PostDTO[]>(this.urlBlogUocApi);
   }
 
   getPostsByUserId(userId: string): Promise<PostDTO[]> {

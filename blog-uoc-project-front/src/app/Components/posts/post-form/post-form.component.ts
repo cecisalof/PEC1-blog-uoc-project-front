@@ -109,7 +109,9 @@ export class PostFormComponent implements OnInit {
     if (!userId) return;
 
     try {
-      this.categories = await this.categoryService.getCategoriesByUserId(userId);
+      this.categoryService.getCategoriesByUserId(userId).subscribe((categoriesResult => {       
+        this.categories = categoriesResult;
+      }));
     } catch (error: any) {
       const errorResponse = error.error;
       this.sharedService.errorLog(errorResponse);

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryDTO } from '../Models/category.dto';
+import { Observable } from 'rxjs';
 
 interface deleteResponse {
   affected: number;
@@ -25,10 +26,9 @@ export class CategoryService {
     this.urlBlogUocApi = 'http://localhost:3000/' + this.controller;
   }
 
-  getCategoriesByUserId(userId: string): Promise<CategoryDTO[]> {
+  getCategoriesByUserId(userId: string): Observable<CategoryDTO[]> {
     return this.http
-      .get<CategoryDTO[]>('http://localhost:3000/users/categories/' + userId)
-      .toPromise();
+      .get<CategoryDTO[]>('http://localhost:3000/users/categories/' + userId);
   }
 
   createCategory(category: CategoryDTO): Promise<CategoryDTO> {

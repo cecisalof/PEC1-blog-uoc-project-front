@@ -27,9 +27,13 @@ export class CategoriesListComponent {
     const userId = this.localStorageService.get('user_id');
     if (userId) {
       try {
-        this.categories = await this.categoryService.getCategoriesByUserId(
+      this.categoryService.getCategoriesByUserId(
           userId
-        );
+        ).subscribe((
+          categoriesResult => {   
+            this.categories = categoriesResult;
+          }
+        ));
       } catch (error: any) {
         errorResponse = error.error;
         this.sharedService.errorLog(errorResponse);
